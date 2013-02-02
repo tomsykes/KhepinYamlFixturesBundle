@@ -12,8 +12,8 @@
         }
     ],
     "require": {
-        "doctrine/data-fixtures": "*@alpha",
-        "doctrine/doctrine-fixtures-bundle": ">=2.0.0",
+        "doctrine/data-fixtures": "dev-master",
+        "doctrine/doctrine-fixtures-bundle": ">=2.0.0@alpha",
         "doctrine/orm":">=2.2.3,<2.4-dev",
         "doctrine/doctrine-bundle": ">=1.0.0,<1.3-dev"
     },
