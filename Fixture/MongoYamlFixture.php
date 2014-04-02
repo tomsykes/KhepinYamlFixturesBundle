@@ -31,7 +31,7 @@ class MongoYamlFixture extends AbstractFixture
                 // Dates need to be converted to DateTime objects
                 $type = $metadata->fieldMappings[$field]['type'];
                 if ($type == 'many') {
-                    $method = Inflector::camelize('add_'.$field);
+                    $documentArray = array();
                     // EmbedMany
                     if (isset($metadata->fieldMappings[$field]['embedded']) && $metadata->fieldMappings[$field]['embedded']) {
                         foreach ($value as $embedded_value) {
@@ -39,14 +39,15 @@ class MongoYamlFixture extends AbstractFixture
                             $embed_data = $embedded_value;
                             $embed_meta = $this->getMetaDataForClass($embed_class);
                             $value = $this->createObject($embed_class, $embed_data, $embed_meta, array('embedded' => true));
-                            $object->$method($value);
+                            $documentArray[] = $value;
                         }
                     //ReferenceMany
                     } else {
                         foreach ($value as $reference_object) {
-                            $object->$method($this->loader->getReference($reference_object));
+                            $documentArray[] = $this->loader->getReference($reference_object);
                         }
                     }
+                    $object->$method($documentArray);
                 } else {
                     if ($type == 'datetime' OR $type == 'date') {
                         $value = new \DateTime($value);
